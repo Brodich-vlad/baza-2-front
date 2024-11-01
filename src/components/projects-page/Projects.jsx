@@ -4,7 +4,6 @@ import { createKey } from "@/src/lib/utils/createKey";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import LoadMore from "../shared/LoadMore/LoadMore";
-import { createImageUrl } from "@/src/lib/hooks/createImageUrl";
 import { getAllProjects } from "@/src/api/projects";
 import ProjectCard from "./ProjectCard/ProjectCard";
 import InputSearch from "../shared/inputs/InputSearch/InputSearch";
@@ -15,6 +14,7 @@ import stateSorryModal from "@/src/state/stateSorryModal";
 import styles from "./Projects.module.scss";
 import SorryModal from "../modals/SorryModal/SorryModal";
 import MessageErrorLoading from "../shared/MessageErrorLoading/MessageErrorLoading";
+import { localeUkToUa } from "@/src/lib/utils/localeUkToUa";
 
 const Projects = () => {
   const t = useTranslations("Projects");
@@ -59,35 +59,39 @@ const Projects = () => {
   return (
     <section className={styles.section}>
       <div className={styles.projectsContainer}>
-        {isLoading && <Loader />}
-        {isError && <MessageErrorLoading />}
         <h1 className={styles.title}>{t("title")}</h1>
-        <InputSearch
-          className={styles.search}
-          onSubmit={handleSearchChange}
-          defaultValue={searchQuery}
-          placeholder={t("placeholder")}
-        />
-        <div className={styles.pagesWrapper}>
-          {data?.pages.map((page, i) => (
-            <div key={i} className={styles.content}>
-              {page.results.map((project) => (
-                <ProjectCard
-                  key={createKey()}
-                  project={project}
-                  locale={locale}
-                  coverImgUrl={createImageUrl(project.imageUrl)}
-                />
+        {isLoading && <Loader />}
+        {isError && <MessageErrorLoading className={styles.fullHeight} />}
+        {!isError && !isLoading && (
+          <>
+            <InputSearch
+              className={styles.search}
+              onSubmit={handleSearchChange}
+              defaultValue={searchQuery}
+              placeholder={t("placeholder")}
+            />
+            <div className={styles.pagesWrapper}>
+              {data?.pages.map((page, i) => (
+                <div key={i} className={styles.content}>
+                  {page.results.map((project) => (
+                    <ProjectCard
+                      key={createKey()}
+                      project={project}
+                      locale={localeUkToUa(locale)}
+                      coverImgUrl={project.imageUrl}
+                    />
+                  ))}
+                </div>
               ))}
             </div>
-          ))}
-        </div>
-        <LoadMore
-          disabled={isFetchingNextPage}
-          onClick={() => fetchNextPage()}
-          text={t("load_more")}
-          className={clsx(styles.loadMore, !hasNextPage && styles.hidden)}
-        />
+            <LoadMore
+              disabled={isFetchingNextPage}
+              onClick={() => fetchNextPage()}
+              text={t("load_more")}
+              className={clsx(styles.loadMore, !hasNextPage && styles.hidden)}
+            />
+          </>
+        )}
       </div>
       <SorryModal handleCallback={handleSearchChange} />
     </section>

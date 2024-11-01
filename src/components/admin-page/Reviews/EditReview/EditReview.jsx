@@ -38,11 +38,20 @@ export default function EditReview() {
   
   return (
     <SectionAdmin title={'Редагувати відгук'}>
-      <ReviewForm hendleMutate={mutate} data={reviewById.data} submitBtnText='Зберегти зміни'/>
+      <ReviewForm 
+        hendleMutate={mutate} 
+        data={reviewById.data} 
+        submitBtnText='Зберегти зміни'/>
 
       { isPending && <Loader/> }
 
-      <AdminModal isOpen={modalOpen} handleCallback={closeModal} title={'Дані успішно збережено'} btn={true}></AdminModal>
+      <AdminModal 
+        isOpen={modalOpen} 
+        handleCallback={closeModal} 
+        title={'Дані успішно збережено'} 
+        btn={true}>
+      </AdminModal>
+      
       <UseAlert text={error && error.message}/>
     </SectionAdmin>
   )

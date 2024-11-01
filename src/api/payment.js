@@ -1,7 +1,8 @@
-import instance from "./config/instance"
+import instanceBaza2 from "./config/instance-baza2";
+import { isMobile } from 'react-device-detect';
 
 export async function PaymentService(paymentAmount="0", locale="ua"){
-
+	
 	const paymentData = {
 		transactionType: 'CREATE_INVOICE',
 		merchantDomainName: window.location.hostname,
@@ -18,12 +19,14 @@ export async function PaymentService(paymentAmount="0", locale="ua"){
 	}
 
 	try {
-		const res = await instance.post('/payment', {...paymentData})
+		const res = await instanceBaza2.post('/payment', {...paymentData})
     if (res.data?.invoiceUrl) {
-			window.open(res.data.invoiceUrl);
+			if(isMobile){
+				window.location.assign(res.data.invoiceUrl)
+			}else window.open(res.data.invoiceUrl);
 		}
 		return res.data
 	} catch (error) {
-		throw new Error(error?.response?.data?.message)
+		throw new Error(error)
 	}
 }

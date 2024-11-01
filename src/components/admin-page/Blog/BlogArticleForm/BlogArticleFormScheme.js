@@ -6,6 +6,7 @@ import { checkFileSize } from "@/src/lib/hooks/checkFileSize";
 import { validateFileTypes } from "@/src/lib/hooks/validateFileTypes";
 import { transformFileValue } from "@/src/lib/hooks/transformFileValue";
 import { minDateValue } from "@/src/lib/hooks/minMaxDate";
+import { empryFile } from "@/src/lib/utils/empryFile";
 
 export const articleDefaultValues = {
   file: null,
@@ -24,10 +25,6 @@ const strToArr = (str) => {
   return result.length ? result : [str]; 
 };
 
-const empryFile=(value)=>{
-  if(value && value.length){return true}else return false
-}
-
 // Базова схема
 const Base = z.object({
   title: z.string()
@@ -41,7 +38,7 @@ const Base = z.object({
     .trim()
     .min(1, { message: "Це поле обов'язкове"})
     .min(50, { message: 'Мінімум 50 знаків'})
-    .max(2000, { message: 'Текст максимум 2000 символів'})
+    .max(4000, { message: 'Текст максимум 4000 символів'})
     .transform(strToArr) // Перетворюємо рядок на масив рядків
     .pipe(z.array(
       z.string()

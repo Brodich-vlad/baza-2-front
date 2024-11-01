@@ -19,18 +19,19 @@ const nextConfig = {
 				})
 			);
 		}
+		
 		return config;
 	},
-  images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: '**',
-        port: '',
-        pathname: '**',
-      },
-    ],
-  },
+	images: {
+		remotePatterns: [
+			{
+				protocol: 'https',
+				hostname: 'baza-trainee.tech',
+				port: '',
+				pathname: '**',
+			},
+		],
+	},	
 };
 
 module.exports = withNextIntl(nextConfig);

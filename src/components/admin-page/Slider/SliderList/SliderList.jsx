@@ -34,7 +34,11 @@ export default function SliderList({data, hendleRemove}) {
       {data?.length ? <ul className={styles.list}>
         {data.map((el)=>{
           return <li key={createKey()} className={styles.item}>
-            <HeroCard title={el.title[localeUkToUa(locale)]} desc={el.subtitle[localeUkToUa(locale)]} className={styles.heroCard} img={el.imageUrl}/>
+            <HeroCard 
+              title={el.title[localeUkToUa(locale)]} 
+              desc={el.subtitle[localeUkToUa(locale)]} 
+              className={styles.heroCard} 
+              img={el.imageUrl}/>
             <div className={styles.btns}>
               <MainButton variant='admin' 
                 className={styles.btn} 
@@ -52,7 +56,13 @@ export default function SliderList({data, hendleRemove}) {
         <MessageErrorLoading variant='search'/>
       }
 
-      <AdminModal isOpen={idSlide} handleCallback={closeModal} handleOkCallback={okRemove} title={'Ви впевнені, що хочете видалити слайд?'} btnBlok={true}></AdminModal>
+      <AdminModal 
+        isOpen={idSlide} 
+        handleCallback={closeModal} 
+        handleOkCallback={okRemove} 
+        title={'Ви впевнені, що хочете видалити слайд?'} 
+        btnBlok={true}>
+      </AdminModal>
     </>
   )
 }
